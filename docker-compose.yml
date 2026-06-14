@@ -1,19 +1,5 @@
-services:
-  postgres:
-    image: postgres:16
-    environment:
-      POSTGRES_USER: promptkeep
-      POSTGRES_PASSWORD: promptkeep
-      POSTGRES_DB: promptkeep
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U promptkeep"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
-  api:
+api:
+    image: ghcr.io/abdulsgilal579/promptkeep-api:latest
     build: .
     environment:
       GROQ_API_KEY: ${GROQ_API_KEY}
@@ -23,6 +9,3 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-
-volumes:
-  pgdata:
